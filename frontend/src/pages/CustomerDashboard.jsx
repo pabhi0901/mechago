@@ -113,7 +113,7 @@ const CustomerDashboard = () => {
       setError("");
       
       const response = await axios.get(
-        `/api/customer/mechanics/nearby?latitude=${coords.latitude}&longitude=${coords.longitude}&radiusKm=${radius}`
+        `/customer/mechanics/nearby?latitude=${coords.latitude}&longitude=${coords.longitude}&radiusKm=${radius}`
       );
       
       if (response.data?.success) {
@@ -137,7 +137,7 @@ const CustomerDashboard = () => {
   // Fetch latest problem status from backend and update UI
   const fetchActiveProblemStatus = async (problemId) => {
     try {
-      const response = await axios.get(`/api/customer/problem/${problemId}`);
+      const response = await axios.get(`/customer/problem/${problemId}`);
       if (response.data?.success && response.data?.data) {
         const updatedProblem = response.data.data;
         setActiveProblem(updatedProblem);
@@ -200,7 +200,7 @@ const CustomerDashboard = () => {
       try {
         // Request nearby mechanics with a wide radius (100km) to locate our moving responder
         const response = await axios.get(
-          `/api/customer/mechanics/nearby?latitude=${coords.latitude}&longitude=${coords.longitude}&radiusKm=100`
+          `/customer/mechanics/nearby?latitude=${coords.latitude}&longitude=${coords.longitude}&radiusKm=100`
         );
         if (response.data?.success) {
           const mechDetails = response.data.data.find(
@@ -263,7 +263,7 @@ const CustomerDashboard = () => {
       }
 
       // POST /api/customer/problem
-      const response = await axios.post("/api/customer/problem", formData, {
+      const response = await axios.post("/customer/problem", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
@@ -286,7 +286,7 @@ const CustomerDashboard = () => {
       setLoading(true);
       setError("");
       
-      const response = await axios.patch("/api/customer/problem/cancel", {
+      const response = await axios.patch("/customer/problem/cancel", {
         problemId: activeProblem._id
       });
       

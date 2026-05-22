@@ -55,7 +55,7 @@ const ChatWindow = ({ senderId, receiverId, receiverName }) => {
     const fetchMessages = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/mechanic/messages?limit=50");
+        const response = await axios.get("/mechanic/messages?limit=50");
         if (response.data?.success) {
           const convoMessages = response.data.data
             .filter(

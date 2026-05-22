@@ -11,9 +11,10 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user && user.userId) {
-      // Connect through the Vite dev proxy (/socket.io is proxied to :5000 with ws:true)
-      // In production this will be the same origin as well.
-      const socketUrl = window.location.origin;
+      // In production connect to the Render backend, in dev use local server
+      const socketUrl = import.meta.env.PROD
+        ? "https://mechago.onrender.com"
+        : "http://localhost:5000";
 
       console.log(`Connecting socket to: ${socketUrl} for user: ${user.userId}`);
 
@@ -23,6 +24,7 @@ export const SocketProvider = ({ children }) => {
         reconnectionAttempts: 10,
         reconnectionDelay: 1000,
       });
+
 
       setSocket(newSocket);
 

@@ -21,8 +21,8 @@ const AdminDashboard = () => {
       setError("");
       
       const endpoint = pendingOnly
-        ? `/api/admin/mechanics/pending?page=${page}&limit=10`
-        : `/api/admin/mechanics?page=${page}&limit=10`;
+        ? `/admin/mechanics/pending?page=${page}&limit=10`
+        : `/admin/mechanics?page=${page}&limit=10`;
         
       const response = await axios.get(endpoint);
       if (response.data?.success) {
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
       setError("");
       setSuccess("");
 
-      const response = await axios.patch(`/api/admin/toggle-verification/${mechanicId}`);
+      const response = await axios.patch(`/admin/toggle-verification/${mechanicId}`);
       if (response.data?.success) {
         const updated = response.data.userInfo;
         setSuccess(`Verification updated for mechanic: ${updated.name}`);

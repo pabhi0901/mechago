@@ -61,7 +61,7 @@ const MechanicDashboard = () => {
     const updateLocationInBackend = async (lat, lon) => {
       try {
         // Try updating first (PATCH /api/mechanic/location)
-        await axios.patch("/api/mechanic/location", {
+        await axios.patch("/mechanic/location", {
           longitude: lon,
           latitude: lat
         });
@@ -70,7 +70,7 @@ const MechanicDashboard = () => {
         // If PATCH fails (404/not found), try creating location (POST /api/mechanic/location)
         if (err.response?.status === 404 || err.response?.data?.message?.includes("create")) {
           try {
-            await axios.post("/api/mechanic/location", {
+            await axios.post("/mechanic/location", {
               longitude: lon,
               latitude: lat
             });
@@ -110,7 +110,7 @@ const MechanicDashboard = () => {
     try {
       setLoading(true);
       // GET /api/mechanic/orders/pending
-      const response = await axios.get("/api/mechanic/orders/pending?limit=20");
+      const response = await axios.get("/mechanic/orders/pending?limit=20");
       if (response.data?.success) {
         setPendingOrders(response.data.data);
       }
@@ -180,7 +180,7 @@ const MechanicDashboard = () => {
       setSuccess("");
 
       // PATCH /api/mechanic/problem/status
-      const response = await axios.patch("/api/mechanic/problem/status", {
+      const response = await axios.patch("/mechanic/problem/status", {
         problemId: problem._id,
         status: "accepted"
       });
@@ -209,7 +209,7 @@ const MechanicDashboard = () => {
       setSuccess("");
 
       // PATCH /api/mechanic/problem/status
-      const response = await axios.patch("/api/mechanic/problem/status", {
+      const response = await axios.patch("/mechanic/problem/status", {
         problemId,
         status: "rejected"
       });
@@ -239,7 +239,7 @@ const MechanicDashboard = () => {
       setError("");
       
       // PATCH /api/mechanic/problem/fixed-price
-      const response = await axios.patch("/api/mechanic/problem/fixed-price", {
+      const response = await axios.patch("/mechanic/problem/fixed-price", {
         problemId: activeOrder._id,
         fixedPrice: Number(priceInput)
       });
@@ -264,7 +264,7 @@ const MechanicDashboard = () => {
       setError("");
       
       // PATCH /api/mechanic/problem/status
-      const response = await axios.patch("/api/mechanic/problem/status", {
+      const response = await axios.patch("/mechanic/problem/status", {
         problemId: activeOrder._id,
         status: "completed"
       });

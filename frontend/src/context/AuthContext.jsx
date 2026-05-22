@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
+import { API_URL } from "../api";
 
 const AuthContext = createContext(null);
 
@@ -13,6 +14,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Configure axios defaults
+    axios.defaults.baseURL = API_URL;
+    axios.defaults.withCredentials = true;
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       localStorage.setItem("mechaGo_token", token);
@@ -33,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post("/api/auth/login", { email, password });
+      const response = await axios.post("/auth/login", { email, password });
       const { token: receivedToken, userInfo } = response.data;
       
       setToken(receivedToken);
@@ -49,7 +52,7 @@ export const AuthProvider = ({ children }) => {
   const registerCustomer = async (formData) => {
     try {
       // formData is a Multipart Form Data
-      const response = await axios.post("/api/auth/register", formData, {
+      const response = await axios.post("/auth/register", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       const { token: receivedToken, userInfo } = response.data;
@@ -66,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
   const registerMechanic = async (formData) => {
     try {
-      const response = await axios.post("/api/auth/register", formData, {
+      const response = await axios.post("/auth/register", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       return { success: true, message: response.data.message };
@@ -79,7 +82,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("/api/auth/logout", {});
+      await axios.post("/auth/logout", {});
     } catch (error) {
       console.error("Logout backend warning:", error);
     } finally {
@@ -93,7 +96,7 @@ export const AuthProvider = ({ children }) => {
       const formData = new FormData();
       formData.append("image", imageFile);
       
-      const response = await axios.patch("/api/auth/change-profile-photo", formData, {
+      const response = await axios.patch("/auth/change-profile-photo", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       
